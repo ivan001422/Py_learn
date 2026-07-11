@@ -172,9 +172,19 @@ class Sample:
     def classify(self, label: str) -> None:
         self.classification = label
 
-    def matches(self) -> bool:  
+    def matches(self) -> bool:   
         return self.classification == self.species
 
+    def __repr__(self) -> str:
+        # Возвращаем строку, похожую на конструктор, чтобы было ясно, что за объект
+        return (
+            f"Sample(sepal_length={self.sepal_length}, "
+            f"sepal_width={self.sepal_width}, "
+            f"petal_length={self.petal_length}, "
+            f"petal_width={self.petal_width}, "
+            f"species={self.species!r}, "
+            f"classification={self.classification!r})"
+        )
 
 class Hyperparameter:
     def __init__(self, k: int, test_samples: list) -> None:
@@ -230,10 +240,13 @@ data = Training_Data('Data')
 data.load('.venv/Data')
 
 print(f"Обучающих: {len(data.training)}")
-print(f"Тестовых: {len(data.test)}")
-
+for i in data.training[:3]:
+    print(i)
+print(f"\nТестовых: {len(data.test)}")
+for i in data.test[:3]:
+    print(i)
 # Посмотрим, какие виды есть в тесте
-print("Виды в тесте:", set(s.species for s in data.test))
+print("\nВиды в тесте:", set(s.species for s in data.test))
 
 hp1 = Hyperparameter(k=3, test_samples=data.test)
 data.testing(hp1)
